@@ -1,0 +1,6 @@
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\project\Etri\test\C#Study\Ex1_Main\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
