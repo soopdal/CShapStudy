@@ -1,0 +1,6 @@
+﻿					C# 스터디 설명
+			개요
+C#을 공부하기 위해 http://www.csharpstudy.com/ 의 예제 샘플을 만든 것입다.
+
+													김달호 soopdal@gmail.com	
+													2016년 7월 18일 월 시작

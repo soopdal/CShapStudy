@@ -1,8 +1,9 @@
 ﻿
-using System.Collections.Generic;                                               // Generaic, List<T>, Dictionary<T>, LinkedList<T>
+
 
 using System;
-//using System.Collections.Generic;
+using System.Collections;                                                       // IEnumerator
+using System.Collections.Generic;                                               // Generaic, List<T>, Dictionary<T>, LinkedList<T>
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -11,24 +12,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace Ex2_Version
 {
-    class Program
+    partial class Program
     {
-        static void Main(string[] args)
-        {
-            runCSharp2();
-        }
-
         //---------------------------------------------------------------------
         //                      C# 2.0
         //---------------------------------------------------------------------
-        static void runCSharp2()                                                // C# 2.0
+        static void runCSharp2()                                                
         {
+            Console.WriteLine("\n\n\t\tC# 2.0");
+
             runGeneric();                                                       // 제너릭
             runConstraint();                                                    // 제너릭 제한
             runAnonymousMethod();                                               // 무명 메소드
+
             runNullableType();                                                  // 널러블 타입
+            runPartialType();
+            runYield();
+            runCovarianceAndContravariance();
         }
 
         //---------------------------------------------------------------------
@@ -36,7 +40,7 @@ namespace Ex2_Version
         //---------------------------------------------------------------------
         static void runGeneric()
         {
-            System.Console.WriteLine("C# 2.0 Generic");
+            Console.WriteLine("\tGeneric");
 
             List<string> nameList = new List<string>();
             nameList.Add("홍길동");
@@ -50,7 +54,7 @@ namespace Ex2_Version
             numbers.Push(1);
             int number = numbers.Pop();
 
-            System.Console.WriteLine("pop number {0}", number);
+            Console.WriteLine("pop number {0}", number);
         }
 
         //---------------------------------------------------------------------
@@ -85,7 +89,7 @@ namespace Ex2_Version
         //---------------------------------------------------------------------
         static void runConstraint()
         {
-            System.Console.WriteLine("Generic constraint");
+            Console.WriteLine("\tGeneric constraint");
         }
 
         //---------------------------------------------------------------------
@@ -111,9 +115,9 @@ namespace Ex2_Version
 
         static Form1 form;
 
-        static void runAnonymousMethod()                                             
+        static void runAnonymousMethod()
         {
-            System.Console.WriteLine("Anonymous method");
+            Console.WriteLine("\tAnonymous method");
             form = new Form1();
             Application.Run(form);
         }
@@ -124,7 +128,7 @@ namespace Ex2_Version
         //---------------------------------------------------------------------
         static void runNullableType()
         {
-            System.Console.WriteLine("Nullable type");
+            Console.WriteLine("\tNullable type");
 
             string s;                                                           // Null을 가질 수 있는 문자열
             s = null;
@@ -142,6 +146,109 @@ namespace Ex2_Version
             j = 10;
             int k = j.Value;                                                      // Value타입으로 바꿀 때는 Value 속성을 사용한다.
             Console.WriteLine("k = {0}", k);
+        }
+
+        //---------------------------------------------------------------------
+        //                      Partial Type  C# 2.0
+        //---------------------------------------------------------------------
+        partial class PartialClass                                              // Partial Class
+        {
+            public void Run() { }
+        }
+
+        partial class PartialClass
+        {
+            public void Get() { }
+        }
+
+        partial class PartialClass
+        {
+            public void Put() { }
+        }
+
+        partial struct PartialStruct
+        {
+            public int      ID;
+            public string   name;                                               // 밑에 경고 때문에 여기로 옮겨옴
+        }
+
+        partial struct PartialStruct
+        {                                                                       // public string name;      partial 구조체 'Program.PartialStruct'의 여러 선언에서 필드 간 순서가 정의되어 있지 않습니다.순서를 지정하려면 모든 인스턴스 필드가 같은 선언에 있어야 합니다.Ex2_Version C:\project\Tup2\test\C#Study\Ex2_Version\Ex2_Version\ProgramSharp2.cs	164	활성
+            public PartialStruct(int id, string name)
+            {
+                this.ID     = id;
+                this.name   = name;
+            }
+        }
+
+        partial interface PartialInterface
+        {
+            string Name { get; set;  }
+        }
+
+        partial interface PartialInterface
+        {
+            void Do();
+        }
+
+        public class DoClass : PartialInterface
+        {
+            public string Name { get; set;  }
+            public void Do()    { }
+        }
+
+        static void runPartialType()
+        {
+            Console.WriteLine("\tPartial type");
+        }
+
+        //---------------------------------------------------------------------
+        //                      Yield  C# 2.0
+        //---------------------------------------------------------------------
+        static void runYield()
+        {
+            Console.WriteLine("\tYield");
+            foreach (int number in getNumber())
+                Console.WriteLine(number);
+
+            var list = new DalList();
+
+            foreach( var item in list )
+                Console.WriteLine(item);
+
+            IEnumerator it = list.GetEnumerator();
+            it.MoveNext();
+            Console.WriteLine(it.Current);
+
+            it.MoveNext();
+            Console.WriteLine(it.Current);
+        }
+
+        static IEnumerable<int> getNumber()
+        {
+            yield return 10;                                                    // 첫 번째 루프에서 리턴되는 값
+            yield return 20;                                                    // 두 번째 루프에서 리턴되는 값
+            yield return 30;                                                    // 세 번째 루프에서 리턴되는 값
+        }
+
+        public class DalList
+        {
+            private int[] data = { 1, 2, 3, 4, 5 };
+
+            public IEnumerator GetEnumerator()
+            {
+                int i = 0;
+                while(i < data.Length)
+                {
+                    yield return data[i];
+                    i++;
+                }
+            }
+        }
+
+        static void runCovarianceAndContravariance()                            // 코베리언스, 콘트라베리언스
+        {
+            Console.WriteLine("\t공변성과 역공변성");
         }
     }
 }
