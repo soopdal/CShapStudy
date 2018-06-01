@@ -1,4 +1,8 @@
 ﻿
+// This sample has 2 ways to corrupt the Process heap 
+// one is SHOW_PINVOKE_BUG, the other is CorruptHeapAlloc
+#define SHOW_PINVOKE_BUG
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,6 +64,7 @@ namespace Ex5_Exception
                     // then copies data to it
                     CorruptHeapAlloc();
                 }
+
                 Array.ForEach<IntPtr>(lstAddr.ToArray(), addr =>
                 {
                     //now free the allocations
@@ -75,18 +80,15 @@ namespace Ex5_Exception
             // Disable Just My Code Debugging: Tools->Options->Debugging->General
             // Debug->Exceptions-> enable both Common Langauge Runtime, Win32 Exceptions
 
-
             var hp = NativeMethods.GetProcessHeap();
             var addr = NativeMethods.HeapAlloc(hp, 0, 1000);
 
-            Marshal.FreeCoTaskMem(addr); // or NativeMethods.HeapFree
+            Marshal.FreeCoTaskMem(addr);                                                            // or NativeMethods.HeapFree
             var enc = new System.Text.UnicodeEncoding();
-            // create a string of 1000 "a"
-            var str = new string('a', 1000);
+            
+            var str = new string('a', 1000);                                                        // create a string of 1000 "a"
             var bytes = enc.GetBytes(str);
-            // copy the bytes to some address to which we have write access 
-            // but that we don't own.
-            Marshal.Copy(bytes, startIndex: 0, destination: addr + 800, length: 800);
+            Marshal.Copy(bytes, startIndex: 0, destination: addr + 800, length: 800);               // copy the bytes to some address to which we have write access     // but that we don't own.
         }
 
         private static void Write(string txt)
@@ -95,6 +97,7 @@ namespace Ex5_Exception
             Console.WriteLine(txt);
         }
     }
+
     public class NativeMethods
     {
         public const int HCF_HIGHCONTRASTON = 0x0001;
@@ -111,12 +114,9 @@ namespace Ex5_Exception
             public string lpszDefaultScheme;
 #else
             public IntPtr lpszDefaultScheme;
-#endif
-            /*
-            /*/
-            //*/
+#endif                            
+                                                                                                    /*          /*/            //*/
         }
-
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
